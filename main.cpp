@@ -11,11 +11,13 @@ int main() {
     srand(now);
 
     //Generate vector of multiple accounts with appropriate fields
+    double maxBalance = 1000000.0;
+    double maxInterestRate = 0.05;
     for (int i = 0; i < 10; ++i) {
         BankAccount account;
         account.setID(i);
-        account.setBalance(rand() % 10000);
-        account.setInterestRate(rand() / RAND_MAX);
+        account.setBalance((rand() / (RAND_MAX + maxBalance)));
+        account.setInterestRate((rand() / (RAND_MAX + maxInterestRate)));
         randomizer.add(account);
     }
 
