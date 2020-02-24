@@ -9,7 +9,6 @@ BankAccount::BankAccount() : id(0), balance(0.0), interestRate(0.01) {}
 
 BankAccount::BankAccount(int id) : id(id), balance(0.0), interestRate(0.01) {}
 
-
 BankAccount::BankAccount(double balance, double interestRate) : id(0),
 balance(balance), interestRate(interestRate) {}
 
@@ -17,8 +16,8 @@ int BankAccount::getID() const {
     return id;
 }
 
-void BankAccount::setID(int id) {
-    BankAccount::id = id;
+void BankAccount::setID(int id_) {
+    id = id_;
 }
 
 BankAccount::BankAccount(int id, double balance, double interestRate) :
