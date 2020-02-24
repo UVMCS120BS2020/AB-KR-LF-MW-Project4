@@ -26,10 +26,18 @@ public:
 
     void MWshuffle();
 
-    friend std::ostream &operator<<(std::ostream &os, const Randomizer &randomizer) {
-        return os;
-    }
+    const vector<T> &getList() const;
+
+    void setList(const vector<T> &list);
+
+    void add(T push);
+
+    T get(int index);
+
+    friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer);
 };
+
+
 
 
 #endif //AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
