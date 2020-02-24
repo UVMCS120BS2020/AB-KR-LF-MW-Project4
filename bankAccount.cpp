@@ -41,3 +41,19 @@ ostream &operator<<(ostream &os, const BankAccount &account) {
     os << "Account Balance: " << account.balance << " Account's Interest Rate: " << account.interestRate;
     return os;
 }
+
+bool BankAccount::operator<(const BankAccount &rhs) const {
+    return balance < rhs.balance;
+}
+
+bool BankAccount::operator>(const BankAccount &rhs) const {
+    return balance > rhs.balance;
+}
+
+bool BankAccount::operator<=(const BankAccount &rhs) const {
+    return balance <= rhs.balance;
+}
+
+bool BankAccount::operator>=(const BankAccount &rhs) const {
+    return balance >= rhs.balance;
+}
