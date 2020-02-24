@@ -19,8 +19,7 @@ public:
     void sort();
     void find(T object);
 
-    //Shuffles should return own copies of shuffled vector, not void
-    //That way they can be compared together at the same time
+    //TODO: Shuffles should return own copies of shuffled vector, not void, that way they can be compared together at the same time
 
     void ABshuffle();
 
@@ -37,7 +36,7 @@ public:
     void add(T push);
 
     T get(int index);
-
+    
     friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer);
 };
 

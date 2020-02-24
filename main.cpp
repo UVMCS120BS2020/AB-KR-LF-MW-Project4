@@ -21,6 +21,9 @@ int main() {
         randomizer.add(account);
     }
 
+    //TODO: Determine a method ot use for calculating how random each shuffle is
+    //TODO: Each member of team must write a different randomizing algorithm
+
 
 
 
