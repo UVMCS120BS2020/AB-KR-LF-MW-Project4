@@ -1,7 +1,9 @@
 #include <iostream>
+#include "bankAccount.h"
+#include "Randomizer.h"
 using namespace std;
 
 int main() {
-    cout << "Hello, World!" << endl;
+    //BankAccount(1000,)
     return 0;
 }
