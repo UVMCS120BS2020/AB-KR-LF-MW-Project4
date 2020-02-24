@@ -24,7 +24,7 @@ public:
     // Constructors
     BankAccount();
 
-    BankAccount(int id);
+    explicit BankAccount(int id);
 
     // Requires: non-negative doubles
     // Modifies: fields
