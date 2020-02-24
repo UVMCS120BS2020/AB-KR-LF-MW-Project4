@@ -47,6 +47,9 @@ public:
 
 
 
+    //Requires: BankAccount object (account)
+    //Modifies: Nothing
+    //Effects: Overloads output operator to print account
     friend ostream &operator<<(ostream &os, const BankAccount &account);
 
 };
