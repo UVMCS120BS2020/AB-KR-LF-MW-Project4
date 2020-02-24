@@ -27,7 +27,11 @@ public:
     void setInterestRate(double interestRate_);
 
     double compoundInterest(double years);
+
+    friend ostream &operator<<(ostream &os, const BankAccount &account);
+
 };
+
 
 
 #endif //AB_KR_LF_MW_PROJECT4_BANKACCOUNT_H
