@@ -44,6 +44,14 @@ public:
     // Effects: increments balance by continuously compounding for n years, returns interest gained.
     double compoundInterest(double numYears);
 
+    bool operator<(const BankAccount &rhs) const;
+
+    bool operator>(const BankAccount &rhs) const;
+
+    bool operator<=(const BankAccount &rhs) const;
+
+    bool operator>=(const BankAccount &rhs) const;
+
     //Requires: BankAccount object (account)
     //Modifies: Nothing
     //Effects: Overloads output operator to print account
