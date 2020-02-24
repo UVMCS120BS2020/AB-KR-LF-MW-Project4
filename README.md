@@ -18,7 +18,7 @@ randomization algorithms.
 
 - [x] Your repository should have a .gitignore file, a README file, and a CMakeLists.txt.
 
-- [ ] Create a class in header and .cpp files that includes at least two fields and at least one
+- [x] Create a class in header and .cpp files that includes at least two fields and at least one
       nontrivial method. It must also overload the << operator.
 
 - [ ] In another header file, write a template class that holds a vector of items and has methods to
