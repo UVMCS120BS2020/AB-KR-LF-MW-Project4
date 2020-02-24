@@ -1,4 +1,11 @@
 # AB-KR-LF-MW-Project4
+
+For this project, the team decided to include an ID field with the bank account objects to make it easier to determine what index the object was at orignally for comparison to where the object ended up after randomizing the vector. 
+
+
+
+
+
 Due on Gradescope by Friday, March 6th
 
 For this project, you will design and implement a C++ program that creates and evaluates
