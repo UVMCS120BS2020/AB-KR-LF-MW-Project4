@@ -12,6 +12,7 @@ using namespace std;
 
 template <class T>
 class Randomizer {
+
     vector<T> list;
 
 public:

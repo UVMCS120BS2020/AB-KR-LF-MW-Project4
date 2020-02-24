@@ -2,9 +2,11 @@
 #include <ctime>
 #include "bankAccount.h"
 #include "Randomizer.h"
+#include <vector>
 using namespace std;
 
 int main() {
+    Randomizer<BankAccount> randomizer;
     time_t now = time(0);
     srand(now);
 
@@ -12,10 +14,8 @@ int main() {
         BankAccount account;
         account.setBalance(rand() % 10000);
         account.setInterestRate(rand() / RAND_MAX);
-        list.pushback(account)
-
+        randomizer.add(account);
     }
-    //BankAccount(1000, .05);
 
     return 0;
 }
