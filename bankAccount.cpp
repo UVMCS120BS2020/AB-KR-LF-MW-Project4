@@ -5,15 +5,24 @@
 #include "bankAccount.h"
 
 
-BankAccount::BankAccount() {
-    this->balance = 0.0;
-    this->interestRate = 0.01;
+BankAccount::BankAccount() : id(0), balance(0.0), interestRate(0.01) {}
+
+BankAccount::BankAccount(int id) : id(id), balance(0.0), interestRate(0.01) {}
+
+
+BankAccount::BankAccount(double balance, double interestRate) : id(0),
+balance(balance), interestRate(interestRate) {}
+
+int BankAccount::getID() const {
+    return id;
 }
 
-BankAccount::BankAccount(double balance_, double interestRate_) {
-    this->balance = balance_;
-    this->interestRate = interestRate_;
+void BankAccount::setID(int id) {
+    BankAccount::id = id;
 }
+
+BankAccount::BankAccount(int id, double balance, double interestRate) :
+    id(id), balance(balance), interestRate(interestRate) {}
 
 double BankAccount::getBalance() const {
     return balance;
@@ -57,3 +66,5 @@ bool BankAccount::operator<=(const BankAccount &rhs) const {
 bool BankAccount::operator>=(const BankAccount &rhs) const {
     return balance >= rhs.balance;
 }
+
+

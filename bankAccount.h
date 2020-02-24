@@ -13,6 +13,9 @@ using namespace std;
 class BankAccount {
 private:
     // Fields
+    // the index of the bank account in a vector.
+    // (useful for measuring randomness.)
+    unsigned int id;
     // the total balance of the account
     double balance;
     // the interest rate of the account
@@ -20,10 +23,15 @@ private:
 public:
     // Constructors
     BankAccount();
+
+    BankAccount(int id);
+
     // Requires: non-negative doubles
     // Modifies: fields
     // Effects: creates a bankAccount object
     BankAccount(double balance_, double interestRate_);
+
+    BankAccount(int id, double balance, double interestRate);
 
     // getters
     // Requires: nothing
@@ -31,13 +39,16 @@ public:
     // Effects: returns field
     double getBalance() const;
     double getInterestRate() const;
+    int getID() const;
 
     // setters
-    // Requires: non-negative double
+    // Requires: non-negative double or int
     // Modifies: fields
     // Effects: sets fields
     void setInterestRate(double interestRate_);
     void setBalance(double balance_);
+    void setID(int id);
+
 
     // Requires: non-negative number
     // Modifies: balance
@@ -56,6 +67,8 @@ public:
     //Modifies: Nothing
     //Effects: Overloads output operator to print account
     friend ostream &operator<<(ostream &os, const BankAccount &account);
+
+
 
 };
 
