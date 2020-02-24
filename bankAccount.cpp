@@ -36,3 +36,8 @@ double BankAccount::compoundInterest(double numYears) {
     balance += interest;
     return interest;
 }
+
+ostream &operator<<(ostream &os, const BankAccount &account) {
+    os << "Account Balance: " << account.balance << " Account's Interest Rate: " << account.interestRate;
+    return os;
+}
