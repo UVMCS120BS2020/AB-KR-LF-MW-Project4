@@ -43,7 +43,14 @@ public:
     // Modifies: balance
     // Effects: increments balance by continuously compounding for n years, returns interest gained.
     double compoundInterest(double numYears);
+
+
+
+
+    friend ostream &operator<<(ostream &os, const BankAccount &account);
+
 };
+
 
 
 #endif //AB_KR_LF_MW_PROJECT4_BANKACCOUNT_H
