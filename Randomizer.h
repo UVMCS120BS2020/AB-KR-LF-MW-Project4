@@ -17,7 +17,13 @@ class Randomizer {
 
 public:
     void sort();
-    void find(T object);
+
+    int find(T object) {
+        for(int i = 0; i < list.size(); ++i){
+            if(list[i] == object) return i;
+        }
+        return -1;
+    }
 
     //Shuffles should return own copies of shuffled vector, not void
     //That way they can be compared together at the same time
