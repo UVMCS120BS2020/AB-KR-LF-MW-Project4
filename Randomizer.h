@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <ctime>
 #include <ostream>
 #include <vector>
 
@@ -50,9 +51,20 @@ public:
 
     vector<T> LFshuffle() {
         vector<T> scrambled = list;
-        for(T &obj : scrambled) {
-            T *addr = &obj;
-            int integerAddr = reinterpret_cast<int>(addr);
+        T *addr = &scrambled.front();
+        auto first = reinterpret_cast<long int>(addr) / 2; // get odd addr
+        auto second = (long int)time(nullptr);
+        long int current;
+        for(int i = 0; i < scrambled.size(); ++i) {
+            current = first + second;
+            first = second;
+            second = current;
+            int j = current % scrambled.size();
+            // swap objects from current index to random index
+            T temp = scrambled[j];
+            scrambled[j] = scrambled[i];
+            scrambled[i] = temp;
+
         }
         return scrambled;
     }
@@ -119,7 +131,7 @@ public:
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer) {
-        for(T &obj : randomizer.list) {
+        for(T obj : randomizer.list) {
             os << obj << endl;
         }
         return os;
