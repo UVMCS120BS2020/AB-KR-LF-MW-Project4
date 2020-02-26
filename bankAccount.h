@@ -55,6 +55,11 @@ public:
     // Effects: increments balance by continuously compounding for n years, returns interest gained.
     double compoundInterest(double numYears);
 
+    //Requires: BankAccount object (account)
+    //Modifies: Nothing
+    //Effects: Overloads output operator to print account
+    friend ostream &operator<<(ostream &os, const BankAccount &account);
+
     bool operator<(const BankAccount &rhs) const;
 
     bool operator>(const BankAccount &rhs) const;
@@ -63,13 +68,9 @@ public:
 
     bool operator>=(const BankAccount &rhs) const;
 
-    //Requires: BankAccount object (account)
-    //Modifies: Nothing
-    //Effects: Overloads output operator to print account
-    friend ostream &operator<<(ostream &os, const BankAccount &account);
+    bool operator==(const BankAccount &rhs) const;
 
-
-
+    bool operator!=(const BankAccount &rhs) const;
 };
 
 

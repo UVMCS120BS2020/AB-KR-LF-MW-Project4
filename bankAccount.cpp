@@ -66,4 +66,12 @@ bool BankAccount::operator>=(const BankAccount &rhs) const {
     return balance >= rhs.balance;
 }
 
+bool BankAccount::operator==(const BankAccount &rhs) const {
+    return id == rhs.id;
+}
+
+bool BankAccount::operator!=(const BankAccount &rhs) const {
+    return !(rhs == *this);
+}
+
 
