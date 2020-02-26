@@ -43,8 +43,11 @@ public:
 
     void MWshuffle();
 
-    // calculates the standard deviation of distance traveled by each object from its initial position (=ID)
-    double calculateRandomness(vector<T> randomizedList) {
+
+    // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
+    // Modifies: nothing
+    // Effects: calculates the standard deviation of distance traveled by each object from its initial position in list
+    double calculateRandomness(const vector<T> &randomizedList) {
         vector<double> distances;
         // find the distance each object in the randomizedList has moved from its position in list
         for (int endPos = 0; endPos < randomizedList.size(); endPos++) {
@@ -55,27 +58,32 @@ public:
                 distances.push_back(distance);
             }
         }
-        double standardDeviation = sqrt(calculateVariance(distances));
-        return standardDeviation;
+        return calculateStandardDeviation(distances);
     }
 
-    double calculateVariance(const vector<double> &numbers) {
+    // Requires: a vector of doubles
+    // Modifies: nothing
+    // Effects: calculates the standard deviation of a vector of doubles
+    double calculateStandardDeviation(const vector<double> &numbers) {
+        // SD = sqrt( sum((X-m)^2) / N ) , where X = number in list, m = mean, N = count of numbers
         double mean = calculateMean(numbers);
         double sumSquaredDistances = 0;
         for (double num : numbers) {
             sumSquaredDistances += pow((num - mean), 2);
         }
         double variance = sumSquaredDistances / numbers.size();
-        return variance;
+        return sqrt(variance);
     }
 
+    // Requires: a vector of doubles
+    // Modifies: nothing
+    // Effects: calculates the mean value of a vector of doubles
     double calculateMean(const vector<double> &numbers) {
         double mean = 0;
         for (double num : numbers) {
             mean += num;
         }
-        mean /= numbers.size();
-        return mean;
+        return mean /= numbers.size();
     }
 
     const vector<T> &getList() const {
