@@ -5,10 +5,12 @@
 #ifndef AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
 #define AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
 
-#include <vector>
+#include <cmath>
 #include <ostream>
+#include <vector>
 
 using namespace std;
+
 
 template <class T>
 class Randomizer {
@@ -16,7 +18,9 @@ class Randomizer {
     vector<T> list;
 
 public:
-    void sort();
+    vector<T> sort(const vector<T> &unsortedList) {
+        return nullptr;
+    }
 
     // returns the index of the object to be located
     int find(T object) {
@@ -41,17 +45,37 @@ public:
 
     // calculates the standard deviation of distance traveled by each object from its initial position (=ID)
     double calculateRandomness(vector<T> randomizedList) {
-        vector<int> distanceMoved;
+        vector<double> distances;
         // find the distance each object in the randomizedList has moved from its position in list
         for (int endPos = 0; endPos < randomizedList.size(); endPos++) {
             int startPos = find(randomizedList[endPos]);
             // if the object is in list calculate and push back how far it moved
             if (startPos != -1) {
-                int distance = abs(endPos - startPos);
-                distanceMoved.push_back(distance);
+                double distance = abs(endPos - startPos);
+                distances.push_back(distance);
             }
         }
-        // TODO: calculate SD of distanceMoved
+        double standardDeviation = sqrt(calculateVariance(distances));
+        return standardDeviation;
+    }
+
+    double calculateVariance(const vector<double> &numbers) {
+        double mean = calculateMean(numbers);
+        double sumSquaredDistances = 0;
+        for (double num : numbers) {
+            sumSquaredDistances += pow((num - mean), 2);
+        }
+        double variance = sumSquaredDistances / numbers.size();
+        return variance;
+    }
+
+    double calculateMean(const vector<double> &numbers) {
+        double mean = 0;
+        for (double num : numbers) {
+            mean += num;
+        }
+        mean /= numbers.size();
+        return mean;
     }
 
     const vector<T> &getList() const {
