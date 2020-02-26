@@ -35,13 +35,13 @@ public:
     //Shuffles should return own copies of shuffled vector, not void
     //That way they can be compared together at the same time
 
-    void ABshuffle();
+    vector<T> ABshuffle();
 
-    void KRshuffle();
+    vector<T> KRshuffle();
 
-    void LFshuffle();
+    vector<T> LFshuffle();
 
-    void MWshuffle();
+    vector<T> MWshuffle();
 
 
     // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
