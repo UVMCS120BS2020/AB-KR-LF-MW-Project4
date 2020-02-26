@@ -23,7 +23,7 @@ int main() {
         randomizer.add(account);
     }
 
-    testLFshuffle(randomizer);
+    //testLFshuffle(randomizer);
 
 
 

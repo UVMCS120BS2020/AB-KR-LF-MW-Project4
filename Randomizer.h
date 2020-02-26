@@ -18,7 +18,7 @@ template <class T>
 class Randomizer {
 private:
     vector<T> list;
-    long long int LFshuffleSeed;
+    unsigned long int LFshuffleSeed;
 
 public:
     vector<T> sort(const vector<T> &unsortedList) {
@@ -56,9 +56,9 @@ public:
 
     vector<T> LFshuffle() {
         vector<T> scrambled = list;
-        long int first = 1;
-        long int second = LFshuffleSeed;
-        long int current;
+        unsigned long int first = 1;
+        unsigned long int second = LFshuffleSeed;
+        unsigned long int current;
         for (int i = 0; i < scrambled.size(); ++i) {
             current = first + second;
             first = second;
