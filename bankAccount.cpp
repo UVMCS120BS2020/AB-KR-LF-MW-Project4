@@ -52,19 +52,19 @@ ostream &operator<<(ostream &os, const BankAccount &account) {
 }
 
 bool BankAccount::operator<(const BankAccount &rhs) const {
-    return balance < rhs.balance;
+    return id < rhs.id;
 }
 
 bool BankAccount::operator>(const BankAccount &rhs) const {
-    return balance > rhs.balance;
+    return id > rhs.id;
 }
 
 bool BankAccount::operator<=(const BankAccount &rhs) const {
-    return balance <= rhs.balance;
+    return id <= rhs.id;
 }
 
 bool BankAccount::operator>=(const BankAccount &rhs) const {
-    return balance >= rhs.balance;
+    return id >= rhs.id;
 }
 
 bool BankAccount::operator==(const BankAccount &rhs) const {

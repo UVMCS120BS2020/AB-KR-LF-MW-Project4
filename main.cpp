@@ -13,7 +13,7 @@ int main() {
     //Generate vector of multiple accounts with appropriate fields
     double maxBalance = 1000000.0;
     double maxInterestRate = 0.05;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 10; i > 0; --i) {
         BankAccount account;
         account.setID(i);
         account.setBalance((rand() / (RAND_MAX + maxBalance)));
@@ -21,7 +21,7 @@ int main() {
         randomizer.add(account);
     }
 
-    randomizer.LFshuffle();
+    //randomizer.LFshuffle();
 
 
     return 0;

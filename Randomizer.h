@@ -5,6 +5,7 @@
 #ifndef AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
 #define AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
 
+#include <algorithm>
 #include <cmath>
 #include <ostream>
 #include <vector>
@@ -19,7 +20,9 @@ class Randomizer {
 
 public:
     vector<T> sort(const vector<T> &unsortedList) {
-        return nullptr;
+        vector<T> sortedList = unsortedList;
+        std::stable_sort(sortedList.begin(), sortedList.end());
+        return sortedList;
     }
 
     // returns the index of the object to be located
