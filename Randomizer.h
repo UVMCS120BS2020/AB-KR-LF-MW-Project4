@@ -15,7 +15,7 @@ using namespace std;
 
 template <class T>
 class Randomizer {
-
+private:
     vector<T> list;
 
 public:
@@ -53,7 +53,6 @@ public:
         for(T &obj : scrambled) {
             T *addr = &obj;
             int integerAddr = reinterpret_cast<int>(addr);
-            cout << integerAddr << ": " << obj << endl;
         }
         return scrambled;
     }
@@ -119,10 +118,10 @@ public:
         return list[index];
     }
 
-
-
     friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer) {
-        os << "TODO: PRINT RANDOMIZER" << endl;
+        for(T &obj : randomizer.list) {
+            os << obj << endl;
+        }
         return os;
     }
 };
