@@ -46,7 +46,8 @@ double BankAccount::compoundInterest(double numYears) {
 }
 
 ostream &operator<<(ostream &os, const BankAccount &account) {
-    os << "Account Balance: " << account.balance << " Account's Interest Rate: " << account.interestRate;
+    os << "\tID: " << account.id <<  "\tAccount Balance: " << account.balance
+    << "\tAccount's Interest Rate: " << account.interestRate;
     return os;
 }
 
@@ -64,6 +65,14 @@ bool BankAccount::operator<=(const BankAccount &rhs) const {
 
 bool BankAccount::operator>=(const BankAccount &rhs) const {
     return balance >= rhs.balance;
+}
+
+bool BankAccount::operator==(const BankAccount &rhs) const {
+    return id == rhs.id;
+}
+
+bool BankAccount::operator!=(const BankAccount &rhs) const {
+    return !(rhs == *this);
 }
 
 
