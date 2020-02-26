@@ -26,6 +26,10 @@ public:
 
     explicit BankAccount(int id);
 
+    bool operator==(const BankAccount &rhs) const;
+
+    bool operator!=(const BankAccount &rhs) const;
+
     // Requires: non-negative doubles
     // Modifies: fields
     // Effects: creates a bankAccount object
