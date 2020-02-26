@@ -37,7 +37,13 @@ public:
 
     vector<T> ABshuffle();
 
-    vector<T> KRshuffle();
+    vector<T> KRshuffle(){
+        vector<T> out;
+        for(T t : list){
+            out.insert(out.begin() + (out.size() == 0? 0 : (rand() % out.size())), t);
+        }
+        return out;
+    }
 
     vector<T> LFshuffle();
 
