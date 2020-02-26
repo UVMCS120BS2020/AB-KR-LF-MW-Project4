@@ -21,7 +21,7 @@ int main() {
         randomizer.add(account);
     }
 
-
+    randomizer.LFshuffle();
 
 
     return 0;

@@ -45,7 +45,15 @@ public:
         return out;
     }
 
-    vector<T> LFshuffle();
+    vector<T> LFshuffle() {
+        vector<T> scrambled = list;
+        for(T &obj : scrambled) {
+            T *addr = &obj;
+            int integerAddr = reinterpret_cast<int>(addr);
+            cout << integerAddr << ": " << obj << endl;
+        }
+        return scrambled;
+    }
 
     vector<T> MWshuffle();
 
@@ -110,7 +118,10 @@ public:
 
 
 
-    friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer);
+    friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer) {
+        os << "TODO: PRINT RANDOMIZER" << endl;
+        return os;
+    }
 };
 
 
