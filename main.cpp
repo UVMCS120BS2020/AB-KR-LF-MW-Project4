@@ -15,7 +15,7 @@ int main() {
     //Generate vector of multiple accounts with appropriate fields
     double maxBalance = 1000000.0;
     double maxInterestRate = 0.05;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 100; ++i) {
         BankAccount account;
         account.setID(i);
         account.setBalance((rand() / (RAND_MAX + maxBalance)));
@@ -32,11 +32,13 @@ int main() {
 }
 
 void testLFshuffle(Randomizer<BankAccount> randomizer) {
-    vector<double> standardDeviations;
-    for (int i = 0; i < 100; ++i) {
+    vector<double> randomnessScores;
+    for (int i = 0; i < 1000; ++i) {
         vector<BankAccount> shuffled = randomizer.LFshuffle();
-        standardDeviations.push_back(randomizer.calculateRandomness(shuffled));
+        double randomness = randomizer.calculateRandomness(shuffled);
+        randomnessScores.push_back(randomness);
+        //cout << randomness << endl;
     }
-    double meanStandardDeviation = randomizer.calculateMean(standardDeviations);
-    cout << "Mean SD = " << meanStandardDeviation << endl;
+    double meanRandomness = randomizer.calculateMean(randomnessScores);
+    cout << "Mean Randomness = " << meanRandomness << endl;
 }

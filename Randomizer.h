@@ -6,8 +6,8 @@
 #define AB_KR_LF_MW_PROJECT4_RANDOMIZER_H
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
-#include <ctime>
 #include <ostream>
 #include <vector>
 
@@ -18,6 +18,7 @@ template <class T>
 class Randomizer {
 private:
     vector<T> list;
+    long long int LFshuffleSeed;
 
 public:
     vector<T> sort(const vector<T> &unsortedList) {
@@ -46,16 +47,19 @@ public:
         for(T t : list){
             out.insert(out.begin() + (out.size() == 0? 0 : (rand() % out.size())), t);
         }
+
+        LFshuffleSeed = chrono::duration_cast<chrono::milliseconds>
+                (chrono::system_clock::now().time_since_epoch()).count();
+
         return out;
     }
 
     vector<T> LFshuffle() {
         vector<T> scrambled = list;
-        T *addr = &scrambled.front();
-        auto first = reinterpret_cast<long int>(addr) / 2; // get odd addr
-        auto second = (long int)time(nullptr);
+        long int first = 1;
+        long int second = LFshuffleSeed;
         long int current;
-        for(int i = 0; i < scrambled.size(); ++i) {
+        for (int i = 0; i < scrambled.size(); ++i) {
             current = first + second;
             first = second;
             second = current;
@@ -64,7 +68,8 @@ public:
             T temp = scrambled[j];
             scrambled[j] = scrambled[i];
             scrambled[i] = temp;
-
+            // update seed
+            LFshuffleSeed = current;
         }
         return scrambled;
     }
@@ -74,7 +79,8 @@ public:
 
     // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
     // Modifies: nothing
-    // Effects: calculates the standard deviation of distance traveled by each object from its initial position in list
+    // Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
+    //          its initial position in list and dividing that by the total size of the list;
     double calculateRandomness(const vector<T> &randomizedList) {
         vector<double> distances;
         // find the distance each object in the randomizedList has moved from its position in list
@@ -86,7 +92,7 @@ public:
                 distances.push_back(distance);
             }
         }
-        return calculateStandardDeviation(distances);
+        return (calculateStandardDeviation(distances) / randomizedList.size());
     }
 
     // Requires: a vector of doubles
