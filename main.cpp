@@ -23,10 +23,8 @@ int main() {
         randomizer.add(account);
     }
 
+    //cout << randomizer << endl;
     //testLFshuffle(randomizer);
-
-
-
 
     return 0;
 }

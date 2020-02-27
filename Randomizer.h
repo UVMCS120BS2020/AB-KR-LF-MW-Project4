@@ -74,6 +74,7 @@ public:
         return scrambled;
     }
 
+    //TODO: Test shuffle algorithm
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
         int size = shuffled.size();
