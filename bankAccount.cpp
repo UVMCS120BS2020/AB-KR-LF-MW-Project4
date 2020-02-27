@@ -49,7 +49,7 @@ double BankAccount::compoundInterest(double numYears) {
 
 ostream &operator<<(ostream &os, const BankAccount &account) {
     os << "\tID: " << account.id <<  "\tAccount Balance: $" << account.balance
-    << "\tAccount's Interest Rate: " << setprecision(2) << fixed << account.interestRate;
+    << "\tAccount Interest Rate: " << setprecision(2) << fixed << account.interestRate;
     return os;
 }
 
