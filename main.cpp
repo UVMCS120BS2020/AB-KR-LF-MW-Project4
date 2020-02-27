@@ -13,17 +13,18 @@ int main() {
     srand(now);
 
     //Generate vector of multiple accounts with appropriate fields
-    double maxBalance = 1000000.0;
+    int maxBalance = 1000000;
+    int maxCents = .09;
     double maxInterestRate = 0.05;
     for (int i = 0; i < 100; ++i) {
         BankAccount account;
         account.setID(i);
-        account.setBalance((rand() / (RAND_MAX + maxBalance)));
+        account.setBalance((rand() % maxBalance) + ((float)rand() / (RAND_MAX + maxCents)));
         account.setInterestRate((rand() / (RAND_MAX + maxInterestRate)));
         randomizer.add(account);
     }
 
-    //cout << randomizer << endl;
+    cout << randomizer << endl;
     //testLFshuffle(randomizer);
 
     return 0;

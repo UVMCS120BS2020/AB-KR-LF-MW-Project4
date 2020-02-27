@@ -3,6 +3,8 @@
 //
 
 #include "bankAccount.h"
+#include <iomanip>
+#include <iostream>
 
 
 BankAccount::BankAccount() : id(0), balance(0.0), interestRate(0.01) {}
@@ -46,8 +48,8 @@ double BankAccount::compoundInterest(double numYears) {
 }
 
 ostream &operator<<(ostream &os, const BankAccount &account) {
-    os << "\tID: " << account.id <<  "\tAccount Balance: " << account.balance
-    << "\tAccount's Interest Rate: " << account.interestRate;
+    os << "\tID: " << account.id <<  "\tAccount Balance: $" << account.balance
+    << "\tAccount's Interest Rate: " << setprecision(2) << fixed << account.interestRate;
     return os;
 }
 

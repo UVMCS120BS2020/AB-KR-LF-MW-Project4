@@ -72,9 +72,9 @@ public:
 
     bool operator>=(const BankAccount &rhs) const;
 
-    bool operator==(const BankAccount &rhs) const;
+//    bool operator==(const BankAccount &rhs) const;
 
-    bool operator!=(const BankAccount &rhs) const;
+  //  bool operator!=(const BankAccount &rhs) const;
 
 };
 
