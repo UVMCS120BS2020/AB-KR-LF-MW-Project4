@@ -76,8 +76,12 @@ public:
 
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
-
-
+        int size = shuffled.size();
+        //for every element, swap with random element in remaining elements
+        for(int i = 0; i < size - 1; ++i) {
+            int j = i + rand() % (size - i);
+            swap(shuffled[i], shuffled[j]);
+        }
         return shuffled;
     }
 
