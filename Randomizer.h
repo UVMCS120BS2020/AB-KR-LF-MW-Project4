@@ -49,7 +49,12 @@ public:
         return scrambled;
     }
 
-    vector<T> MWshuffle();
+    vector<T> MWshuffle() {
+        vector<T> shuffled = list;
+
+
+        return shuffled;
+    }
 
 
     // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
