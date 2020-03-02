@@ -27,7 +27,6 @@ int main() {
 
     cout << "\n10 ACCOUNTS" << endl;
     testShuffleMethods(randomizer, numTrials);
-
     cout << "\n25 ACCOUNTS" << endl;
     randomizer.setList(accounts2);
     testShuffleMethods(randomizer, numTrials);
@@ -76,7 +75,8 @@ double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
 double testCppShuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
     vector<vector<BankAccount>> shuffledVectors;
     for (int i = 0; i < numTrials; ++i) {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        unsigned seed = chrono::duration_cast<chrono::milliseconds>
+                (chrono::system_clock::now().time_since_epoch()).count();
         vector<BankAccount> vect = randomizer.getList();
         shuffle(vect.begin(), vect.end(), std::default_random_engine(seed));
         shuffledVectors.push_back(vect);

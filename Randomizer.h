@@ -175,7 +175,6 @@ public:
             double colMean = calculateMean(colDistances);
             double sumSquaredColDistances = 0;
             for (double num : colDistances) {
-                // divide distance by total items in original vector
                 sumSquaredColDistances += pow(((num - colMean)), 2);
             }
             double colVariance = sumSquaredColDistances / colDistances.size();
