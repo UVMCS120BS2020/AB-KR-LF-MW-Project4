@@ -10,9 +10,7 @@
 #include <cmath>
 #include <ostream>
 #include <vector>
-
 using namespace std;
-
 
 template <class T>
 class Randomizer {
@@ -21,13 +19,25 @@ private:
     unsigned long int LFshuffleSeed;
 
 public:
+
+    /*
+     * Sort
+     * Requires:
+     * Modifies:
+     * Effects: returns the index of the object to be located
+     */
     vector<T> sort(const vector<T> &unsortedList) {
         vector<T> sortedList = unsortedList;
         std::stable_sort(sortedList.begin(), sortedList.end());
         return sortedList;
     }
 
-    // returns the index of the object to be located
+    /*
+     * Find
+     * Requires:
+     * Modifies:
+     * Effects: returns the index of the object to be located
+     */
     int find(T object) {
         for (int i = 0; i < list.size(); i++) {
             if (object == list[i]) {
@@ -37,23 +47,44 @@ public:
         return -1;
     }
 
-    //Shuffles should return own copies of shuffled vector, not void
-    //That way they can be compared together at the same time
+    /**
+     * Shuffles should return own copies of shuffled vector, NOT void.
+     * That way they can be compared together at the same time.
+     */
 
-    vector<T> ABshuffle();
+    /*
+     * Austin Black's Algorithm
+     * Requires:
+     * Modifies:
+     * Effects:
+     */
+    vector<T> ABshuffle() {
+        unsigned long int seed = 6281;
+        vector<T> shuffled = list;
+    }
 
-    vector<T> KRshuffle(){
+    /*
+     * Kai Morrissey's Algorithm
+     * Requires:
+     * Modifies:
+     * Effects:
+     */
+    vector<T> KRshuffle() {
         vector<T> out;
-        for(T t : list){
+        for(T t : list) {
             out.insert(out.begin() + (out.size() == 0? 0 : (rand() % out.size())), t);
         }
-
         LFshuffleSeed = chrono::duration_cast<chrono::milliseconds>
                 (chrono::system_clock::now().time_since_epoch()).count();
-
         return out;
     }
 
+    /*
+     * Luke Fredrickson's Algorithm
+     * Requires:
+     * Modifies:
+     * Effects:
+     */
     vector<T> LFshuffle() {
         vector<T> scrambled = list;
         unsigned long int first = 1;
@@ -74,7 +105,13 @@ public:
         return scrambled;
     }
 
-    //TODO: Test shuffle algorithm
+    /*
+     * Megan Work's Algorithm
+     * Requires:
+     * Modifies:
+     * Effects:
+     */
+    // TODO: Test shuffle algorithm
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
         int size = shuffled.size();
@@ -86,11 +123,12 @@ public:
         return shuffled;
     }
 
-
-    // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
-    // Modifies: nothing
-    // Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
-    //          its initial position in list and dividing that by the total size of the list;
+    /*
+     * Requires: a scrambled version of the list vector (unique objects which possess equality operators)
+     * Modifies: nothing
+     * Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
+     *          its initial position in list and dividing that by the total size of the list;
+     */
     double calculateRandomness(const vector<T> &randomizedList) {
         vector<double> distances;
         // find the distance each object in the randomizedList has moved from its position in list
@@ -105,9 +143,11 @@ public:
         return (calculateStandardDeviation(distances) / randomizedList.size());
     }
 
-    // Requires: a vector of doubles
-    // Modifies: nothing
-    // Effects: calculates the standard deviation of a vector of doubles
+    /*
+     * Requires: a vector of doubles
+     * Modifies: nothing
+     * Effects: calculates the standard deviation of a vector of doubles
+     */
     double calculateStandardDeviation(const vector<double> &numbers) {
         // SD = sqrt( sum((X-m)^2) / N ) , where X = number in list, m = mean, N = count of numbers
         double mean = calculateMean(numbers);
@@ -119,9 +159,11 @@ public:
         return sqrt(variance);
     }
 
-    // Requires: a vector of doubles
-    // Modifies: nothing
-    // Effects: calculates the mean value of a vector of doubles
+    /*
+     * Requires: a vector of doubles
+     * Modifies: nothing
+     * Effects: calculates the mean value of a vector of doubles
+     */
     double calculateMean(const vector<double> &numbers) {
         double mean = 0;
         for (double num : numbers) {
@@ -130,10 +172,22 @@ public:
         return mean /= numbers.size();
     }
 
+    /*
+     * GETTER(S)
+     * Requires: a vector of doubles
+     * Modifies: nothing
+     * Effects: calculates the mean value of a vector of doubles
+     */
     const vector<T> &getList() const {
         return list;
     }
 
+    /*
+     * SETTER(S)
+     * Requires: a vector of doubles
+     * Modifies: nothing
+     * Effects: calculates the mean value of a vector of doubles
+     */
     void setList(const vector<T> &list_) {
         list = list_;
     }
