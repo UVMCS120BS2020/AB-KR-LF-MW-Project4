@@ -1,10 +1,13 @@
+#include "bankAccount.h"
 #include <iostream>
 #include <ctime>
-#include "bankAccount.h"
+#include <random>
 #include "Randomizer.h"
 #include <vector>
 using namespace std;
 
+void testBaseline(Randomizer<BankAccount> randomizer);
+void testCppShuffle(Randomizer<BankAccount> randomizer);
 void testLFshuffle(Randomizer<BankAccount> randomizer);
 
 int main() {
@@ -25,19 +28,41 @@ int main() {
     }
 
     //cout << randomizer << endl;
+
+    testBaseline(randomizer);
+    testCppShuffle(randomizer);
     testLFshuffle(randomizer);
 
     return 0;
 }
 
-void testLFshuffle(Randomizer<BankAccount> randomizer) {
+void testBaseline(Randomizer<BankAccount> randomizer) {
+    vector<BankAccount> vect = randomizer.sort(randomizer.getList());
+    reverse(vect.begin(),vect.end());
+    double randomness = randomizer.calculateRandomness(vect);
+    cout << "Baseline Randomness = " << randomness << endl;
+}
+
+void testCppShuffle(Randomizer<BankAccount> randomizer) {
     vector<double> randomnessScores;
     for (int i = 0; i < 1000; ++i) {
-        vector<BankAccount> shuffled = randomizer.LFshuffle();
-        double randomness = randomizer.calculateRandomness(shuffled);
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        vector<BankAccount> vect = randomizer.getList();
+        shuffle(vect.begin(), vect.end(), std::default_random_engine(seed));
+        double randomness = randomizer.calculateRandomness(vect);
         randomnessScores.push_back(randomness);
         //cout << randomness << endl;
     }
     double meanRandomness = randomizer.calculateMean(randomnessScores);
-    cout << "Mean Randomness = " << meanRandomness << endl;
+    cout << "C++shuffle Mean Randomness = " << meanRandomness << endl;
+}
+
+void testLFshuffle(Randomizer<BankAccount> randomizer) {
+    vector<vector<BankAccount>> shuffledVectors;
+    for (int i = 0; i < 1000; ++i) {
+        vector<BankAccount> shuffled = randomizer.LFshuffle();
+        shuffledVectors.push_back(shuffled);
+    }
+    double randomness = randomizer.calculateRandomness(shuffledVectors);
+    cout << "LFshuffle Randomness = " << randomness << endl;
 }
