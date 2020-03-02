@@ -17,8 +17,15 @@ class Randomizer {
 private:
     vector<T> list;
     unsigned long int LFshuffleSeed;
+    unsigned long int KRshuffleSeed;
 
 public:
+    Randomizer() {
+        LFshuffleSeed = chrono::duration_cast<chrono::milliseconds>
+                (chrono::system_clock::now().time_since_epoch()).count();
+        KRshuffleSeed = chrono::duration_cast<chrono::milliseconds>
+                (chrono::system_clock::now().time_since_epoch()).count();
+    }
 
     /*
      * Sort
@@ -74,7 +81,7 @@ public:
         for(T t : list) {
             out.insert(out.begin() + (out.size() == 0? 0 : (rand() % out.size())), t);
         }
-        LFshuffleSeed = chrono::duration_cast<chrono::milliseconds>
+        KRshuffleSeed = chrono::duration_cast<chrono::milliseconds>
                 (chrono::system_clock::now().time_since_epoch()).count();
         return out;
     }
@@ -123,24 +130,29 @@ public:
         return shuffled;
     }
 
+
     /*
      * Requires: a scrambled version of the list vector (unique objects which possess equality operators)
      * Modifies: nothing
      * Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
      *          its initial position in list and dividing that by the total size of the list;
      */
-    double calculateRandomness(const vector<T> &randomizedList) {
-        vector<double> distances;
-        // find the distance each object in the randomizedList has moved from its position in list
-        for (int endPos = 0; endPos < randomizedList.size(); endPos++) {
-            int startPos = find(randomizedList[endPos]);
-            // if the object is in list calculate and push back how far it moved
-            if (startPos != -1) {
-                double distance = abs(endPos - startPos);
-                distances.push_back(distance);
+    double calculateRandomness(const vector<vector<T>> &shuffledVectors) {
+        vector<vector<double>> distancesVectors;
+        // find the distance each object in the shuffledVectors has moved from its position in list
+        for(vector<T> vect : shuffledVectors) {
+            vector<double> distances;
+            for (int endPos = 0; endPos < shuffledVectors.size(); endPos++) {
+                int startPos = find(shuffledVectors[endPos]);
+                // if the object is in list calculate and push back how far it moved
+                if (startPos != -1) {
+                    double distance = abs(endPos - startPos);
+                    distances.push_back(distance);
+                }
             }
+            distancesVectors.push_back(distances);
         }
-        return (calculateStandardDeviation(distances) / randomizedList.size());
+        return calculateStandardError(distancesVectors);
     }
 
     /*
@@ -148,15 +160,16 @@ public:
      * Modifies: nothing
      * Effects: calculates the standard deviation of a vector of doubles
      */
-    double calculateStandardDeviation(const vector<double> &numbers) {
-        // SD = sqrt( sum((X-m)^2) / N ) , where X = number in list, m = mean, N = count of numbers
+    double calculateStandardError(const vector<vector<double>> &numbers) {
+        // SE = sqrt( sum((X-m)^2) / N ) / sqrt(N), where X = number in list, m = mean, N = count of numbers
         double mean = calculateMean(numbers);
         double sumSquaredDistances = 0;
         for (double num : numbers) {
-            sumSquaredDistances += pow((num - mean), 2);
+            sumSquaredDistances += (pow((num - mean), 2) / numbers.size());
         }
         double variance = sumSquaredDistances / numbers.size();
-        return sqrt(variance);
+        double standardError = sqrt(variance) / sqrt(numbers.size());
+        return standardError;
     }
 
     /*
