@@ -37,24 +37,26 @@ int main() {
 }
 
 void testBaseline(Randomizer<BankAccount> randomizer) {
+    vector<vector<BankAccount>> reversedVectors;
     vector<BankAccount> vect = randomizer.sort(randomizer.getList());
     reverse(vect.begin(),vect.end());
-    double randomness = randomizer.calculateRandomness(vect);
-    cout << "Baseline Randomness = " << randomness << endl;
+    for (int i = 0; i < 1000; ++i) {
+        reversedVectors.push_back(vect);
+    }
+    double randomness = randomizer.calculateRandomness(reversedVectors);
+    cout << "Reversed Randomness = " << randomness << endl;
 }
 
 void testCppShuffle(Randomizer<BankAccount> randomizer) {
-    vector<double> randomnessScores;
+    vector<vector<BankAccount>> shuffledVectors;
     for (int i = 0; i < 1000; ++i) {
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         vector<BankAccount> vect = randomizer.getList();
         shuffle(vect.begin(), vect.end(), std::default_random_engine(seed));
-        double randomness = randomizer.calculateRandomness(vect);
-        randomnessScores.push_back(randomness);
-        //cout << randomness << endl;
+        shuffledVectors.push_back(vect);
     }
-    double meanRandomness = randomizer.calculateMean(randomnessScores);
-    cout << "C++shuffle Mean Randomness = " << meanRandomness << endl;
+    double randomness = randomizer.calculateRandomness(shuffledVectors);
+    cout << "C++shuffle Randomness = " << randomness << endl;
 }
 
 void testLFshuffle(Randomizer<BankAccount> randomizer) {
