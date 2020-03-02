@@ -89,8 +89,8 @@ public:
 
     // Requires: a scrambled version of the list vector (unique objects which possess equality operators)
     // Modifies: nothing
-    // Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
-    //          its initial position in list and dividing that by the total size of the list;
+    // Effects: calculates a randomness score by taking the standard error of distance traveled by each object from
+    //          its initial position in list with respect to the total size of the list;
     double calculateRandomness(const vector<T> &randomizedList) {
         vector<double> distances;
         // find the distance each object in the randomizedList has moved from its position in list
@@ -102,21 +102,22 @@ public:
                 distances.push_back(distance);
             }
         }
-        return (calculateStandardDeviation(distances) / randomizedList.size());
+        return calculateStandardError(distances);
     }
 
     // Requires: a vector of doubles
     // Modifies: nothing
-    // Effects: calculates the standard deviation of a vector of doubles
-    double calculateStandardDeviation(const vector<double> &numbers) {
-        // SD = sqrt( sum((X-m)^2) / N ) , where X = number in list, m = mean, N = count of numbers
+    // Effects: calculates the standard error of a vector of doubles with respect to the size of the vector
+    double calculateStandardError(const vector<double> &numbers) {
+        // SE = sqrt( sum((X-m)^2) / N ) / sqrt(N), where X = number in list, m = mean, N = count of numbers
         double mean = calculateMean(numbers);
         double sumSquaredDistances = 0;
         for (double num : numbers) {
-            sumSquaredDistances += pow((num - mean), 2);
+            sumSquaredDistances += (pow((num - mean), 2) / numbers.size());
         }
         double variance = sumSquaredDistances / numbers.size();
-        return sqrt(variance);
+        double standardError = sqrt(variance) / sqrt(numbers.size());
+        return standardError;
     }
 
     // Requires: a vector of doubles
