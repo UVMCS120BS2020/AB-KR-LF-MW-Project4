@@ -6,65 +6,89 @@
 #include <vector>
 using namespace std;
 
-void testBaseline(Randomizer<BankAccount> randomizer);
-void testCppShuffle(Randomizer<BankAccount> randomizer);
-void testLFshuffle(Randomizer<BankAccount> randomizer);
+vector<BankAccount> generateBankAccounts(int numBankAccounts);
+void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials);
+double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials);
+double testCppShuffle(Randomizer<BankAccount> &randomizer, int numTrials);
+double testLFshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 
 int main() {
-    Randomizer<BankAccount> randomizer;
     time_t now = time(0);
     srand(now);
 
-    //Generate vector of multiple accounts with appropriate fields
-    int maxBalance = 1000000;
-    int maxCents = .09;
-    double maxInterestRate = 0.05;
-    for (int i = 0; i < 100; ++i) {
-        BankAccount account;
-        account.setID(i);
-        account.setBalance((rand() % maxBalance) + ((float)rand() / (RAND_MAX + maxCents)));
-        account.setInterestRate((rand() / (RAND_MAX + maxInterestRate)));
-        randomizer.add(account);
-    }
+    //populate randomizer
+    Randomizer<BankAccount> randomizer;
+    vector<BankAccount> accounts1 = generateBankAccounts(10);
+    vector<BankAccount> accounts2 = generateBankAccounts(25);
+    vector<BankAccount> accounts3 = generateBankAccounts(50);
+    randomizer.setList(accounts1);
 
-    //cout << randomizer << endl;
+    int numTrials = 100;
 
-    testBaseline(randomizer);
-    testCppShuffle(randomizer);
-    testLFshuffle(randomizer);
+    cout << "\n10 ACCOUNTS" << endl;
+    testShuffleMethods(randomizer, numTrials);
+
+    cout << "\n25 ACCOUNTS" << endl;
+    randomizer.setList(accounts2);
+    testShuffleMethods(randomizer, numTrials);
+    cout << "\n50 ACCOUNTS" << endl;
+    randomizer.setList(accounts3);
+    testShuffleMethods(randomizer, numTrials);
 
     return 0;
 }
 
-void testBaseline(Randomizer<BankAccount> randomizer) {
+vector<BankAccount> generateBankAccounts(int numBankAccounts) {
+    vector<BankAccount> accounts;
+    int maxBalance = 1000000;
+    double maxCents = 0.09;
+    double maxInterestRate = 0.05;
+    for (int i = 0; i < numBankAccounts; ++i) {
+        BankAccount account;
+        account.setID(i);
+        account.setBalance((rand() % maxBalance) + ((float)rand() / (RAND_MAX + maxCents)));
+        account.setInterestRate((rand() / (RAND_MAX + maxInterestRate)));
+        accounts.push_back(account);
+    }
+    return accounts;
+}
+
+void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials) {
+    double baselineRandomness = testBaseline(randomizer, numTrials);
+    double cppRandomness = testCppShuffle(randomizer, numTrials);
+    double LFRandomness = testLFshuffle(randomizer, numTrials);
+    cout << "Randomness for " << numTrials << " trials:" << endl;
+    cout << "non-rand =\t" << baselineRandomness << endl;
+    cout << "c++-rand =\t" << cppRandomness << endl;
+    cout << "LF-rand =\t" << LFRandomness << endl;
+}
+
+double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
     vector<vector<BankAccount>> reversedVectors;
     vector<BankAccount> vect = randomizer.sort(randomizer.getList());
     reverse(vect.begin(),vect.end());
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < numTrials; ++i) {
         reversedVectors.push_back(vect);
     }
-    double randomness = randomizer.calculateRandomness(reversedVectors);
-    cout << "Reversed Randomness = " << randomness << endl;
+    return randomizer.calculateRandomness(reversedVectors);
 }
 
-void testCppShuffle(Randomizer<BankAccount> randomizer) {
+double testCppShuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
     vector<vector<BankAccount>> shuffledVectors;
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < numTrials; ++i) {
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         vector<BankAccount> vect = randomizer.getList();
         shuffle(vect.begin(), vect.end(), std::default_random_engine(seed));
         shuffledVectors.push_back(vect);
     }
-    double randomness = randomizer.calculateRandomness(shuffledVectors);
-    cout << "C++shuffle Randomness = " << randomness << endl;
+    return randomizer.calculateRandomness(shuffledVectors);
 }
 
-void testLFshuffle(Randomizer<BankAccount> randomizer) {
+double testLFshuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
     vector<vector<BankAccount>> shuffledVectors;
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < numTrials; ++i) {
         vector<BankAccount> shuffled = randomizer.LFshuffle();
         shuffledVectors.push_back(shuffled);
     }
-    double randomness = randomizer.calculateRandomness(shuffledVectors);
-    cout << "LFshuffle Randomness = " << randomness << endl;
+    return randomizer.calculateRandomness(shuffledVectors);
 }

@@ -138,40 +138,45 @@ public:
      *          its initial position in list and dividing that by the total size of the list;
      */
     double calculateRandomness(const vector<vector<T>> &shuffledVectors) {
-        vector<vector<double>> distanceVectors;
+        vector<vector<double>> trialDistances;
         // find the distance each object in the shuffledVectors has moved from its position in list
         for(vector<T> vect : shuffledVectors) {
-            vector<double> distances;
+            vector<double> relativeDistances;
             for (int endPos = 0; endPos < vect.size(); endPos++) {
                 int startPos = find(vect[endPos]);
-                // if the object is in list calculate and push back how far it moved
+                // if the object is in list calculate and push back how far it moved relative to the size of the vect
                 if (startPos != -1) {
                     double distance = abs(endPos - startPos);
-                    distances.push_back(distance);
+                    relativeDistances.push_back(distance / vect.size());
                 }
             }
-            distanceVectors.push_back(distances);
+            trialDistances.push_back(relativeDistances);
         }
 
-        double overallStandardError = calculateStandardError(distanceVectors);
+        double overallStandardError = calculateStandardError(trialDistances);
         return overallStandardError;
     }
 
     // Requires: a vector of doubles
     // Modifies: nothing
     // Effects: calculates the standard error of a vector of doubles with respect to the size of the vector
-    double calculateStandardError(const vector<vector<double>> &distanceVectors) {
-        // SE = sqrt( sum((X-m)^2) / N ) / sqrt(N), where X = number in list, m = mean, N = count of distanceVectors
+    double calculateStandardError(const vector<vector<double>> &trialDistances) {
+        // SE = sqrt(VAR) / sqrt(N), N = count
+        // VAR = sqrt( sum((X-m)^2) / N ), where X = number in list, m = mean, N = count
         vector<double> colStandardErrors;
-        for (int col = 0; col < distanceVectors[0].size(); ++col) {
+        for (int col = 0; col < trialDistances[0].size(); ++col) {
+            // find the relative distances traveled for elements in each column (nth element of each trial)
             vector<double> colDistances;
-            for (int row = 0; row < distanceVectors.size(); ++row) {
-                colDistances.push_back(distanceVectors[row][col]);
+            for (int row = 0; row < trialDistances.size(); ++row) {
+                colDistances.push_back(trialDistances[row][col]);
             }
+
+            // calculate the variance in the relative distance for each column
             double colMean = calculateMean(colDistances);
             double sumSquaredColDistances = 0;
             for (double num : colDistances) {
-                sumSquaredColDistances += pow((num - colMean), 2);
+                // divide distance by total items in original vector
+                sumSquaredColDistances += pow(((num - colMean)), 2);
             }
             double colVariance = sumSquaredColDistances / colDistances.size();
             double colStandardError = sqrt(colVariance) / sqrt(colDistances.size());
@@ -179,7 +184,7 @@ public:
         }
 
         double meanSE = calculateMean(colStandardErrors);
-        return meanSE;
+        return meanSE * 100;
     }
 
     /*
