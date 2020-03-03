@@ -160,7 +160,7 @@ public:
                     // calculate how far it moved
                     double distance = abs(finalIndex - initIndex);
                     // divide by size of vector to obtain a relative distance moved
-                    relativeDistances.push_back(distance / vect.size());
+                    relativeDistances.push_back((distance / vect.size()) * 100);
                 } else { // wasn't found
                     relativeDistances.push_back(0);
                 }
@@ -200,8 +200,7 @@ public:
         }
         // calculate the mean standard error
         double meanSE = calculateMean(colStandardErrors);
-        // multiply by 100 for more readable score.
-        return meanSE * 100;
+        return meanSE;
     }
 
     /*
