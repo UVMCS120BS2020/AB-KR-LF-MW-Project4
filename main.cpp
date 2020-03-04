@@ -11,6 +11,7 @@ void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials);
 double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials);
 double testCppShuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 double testLFshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
+double testMWshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 
 int main() {
     time_t now = time(0);
@@ -56,10 +57,12 @@ void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials) {
     double baselineRandomness = testBaseline(randomizer, numTrials);
     double cppRandomness = testCppShuffle(randomizer, numTrials);
     double LFRandomness = testLFshuffle(randomizer, numTrials);
+    double MWRandomness = testMWshuffle(randomizer, numTrials);
     cout << "Randomness for " << numTrials << " trials:" << endl;
     cout << "non-rand =\t" << baselineRandomness << endl;
     cout << "c++-rand =\t" << cppRandomness << endl;
     cout << "LF-rand =\t" << LFRandomness << endl;
+    cout << "MW-rand =\t" << MWRandomness << endl;
 }
 
 double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
@@ -88,6 +91,15 @@ double testLFshuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
     vector<vector<BankAccount>> shuffledVectors;
     for (int i = 0; i < numTrials; ++i) {
         vector<BankAccount> shuffled = randomizer.LFshuffle();
+        shuffledVectors.push_back(shuffled);
+    }
+    return randomizer.calculateRandomness(shuffledVectors);
+}
+
+double testMWshuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
+    vector<vector<BankAccount>> shuffledVectors;
+    for (int i = 0; i < numTrials; ++i) {
+        vector<BankAccount> shuffled = randomizer.MWshuffle();
         shuffledVectors.push_back(shuffled);
     }
     return randomizer.calculateRandomness(shuffledVectors);

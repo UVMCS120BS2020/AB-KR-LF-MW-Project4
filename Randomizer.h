@@ -54,10 +54,6 @@ public:
         return -1;
     }
 
-    /**
-     * Shuffles should return own copies of shuffled vector, NOT void.
-     * That way they can be compared together at the same time.
-     */
 
     /*
      * Austin Black's Algorithm
@@ -114,11 +110,10 @@ public:
 
     /*
      * Megan Work's Algorithm
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns vector with indices randomly shuffled
      */
-    // TODO: Test shuffle algorithm
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
         int size = shuffled.size();
