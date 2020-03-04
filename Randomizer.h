@@ -62,8 +62,43 @@ public:
      * Effects:
      */
     vector<T> ABshuffle() {
-        unsigned long int seed = 6281;
+        unsigned long int seed;
         vector<T> shuffled = list;
+        double result = logisticMap(100, 0.4);
+        result *= 1.0*pow(10,4);
+        seed = (int)result;
+
+
+        string seedToString = to_string(seed);
+        cout << "seedToString = " << seedToString << endl;
+
+        int seedSquared = pow(seed, 2);
+        cout << "seedSquared = " << seedSquared << endl;
+
+        string squaredToString = to_string(seedSquared);
+        cout << "squaredToString = " << squaredToString << endl;
+
+        int seedLength = seedToString.length();
+        int squareLength = squaredToString.length();
+
+        if (squareLength % 2 != 0) {
+            squaredToString += "1";
+        }
+    }
+
+    /*
+     * Logistic Map Function
+     * Requires:
+     * Modifies:
+     * Effects:
+     */
+    double logisticMap(int iter, double start) {
+        vector<double> x (iter+1);
+        x[0] = start;
+        for (int i = 0; i < iter; i++) {
+            x[i+1] = 4*x[i]*(1-x[i]);
+        }
+        return x[iter];
     }
 
     /*

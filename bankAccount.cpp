@@ -6,7 +6,6 @@
 #include <iomanip>
 #include <iostream>
 
-
 BankAccount::BankAccount() : id(0), balance(0.0), interestRate(0.01) {}
 
 BankAccount::BankAccount(int id) : id(id), balance(0.0), interestRate(0.01) {}
@@ -76,5 +75,3 @@ bool BankAccount::operator==(const BankAccount &rhs) const {
 bool BankAccount::operator!=(const BankAccount &rhs) const {
     return !(rhs == *this);
 }
-
-
