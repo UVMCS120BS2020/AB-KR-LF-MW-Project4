@@ -54,10 +54,6 @@ public:
         return -1;
     }
 
-    /**
-     * Shuffles should return own copies of shuffled vector, NOT void.
-     * That way they can be compared together at the same time.
-     */
 
     /*
      * Austin Black's Algorithm
@@ -149,11 +145,10 @@ public:
 
     /*
      * Megan Work's Algorithm
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns vector with indices randomly shuffled
      */
-    // TODO: Test shuffle algorithm
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
         int size = shuffled.size();
@@ -167,44 +162,75 @@ public:
 
 
     /*
-     * Requires: a scrambled version of the list vector (unique objects which possess equality operators)
+     * Requires: a vector of scrambled versions of the original list vector (unique objects with equality operators)
      * Modifies: nothing
-     * Effects: calculates a randomness score by taking the standard deviation of distance traveled by each object from
-     *          its initial position in list and dividing that by the total size of the list;
+     * Effects: calculates a randomness score using the average of the standard error of relative distance traveled
+     * by each element in the list from its unshuffled position to its shuffled position across n trials.
+     * This score will change with different list sizes, as the standard error of sample means goes up as the number
+     * of trials goes down. But using the same initial vector and the same sample size, this score can be used as a metric
+     * for calculating relative randomness compared to other functions.
      */
     double calculateRandomness(const vector<vector<T>> &shuffledVectors) {
-        vector<vector<double>> distancesVectors;
-        // find the distance each object in the shuffledVectors has moved from its position in list
+        // vector of all relative distances moved for each element in every trial
+        vector<vector<double>> trialDistances;
+        // for each shuffled vector, find the distance moved for each elem from the initial vector
         for(vector<T> vect : shuffledVectors) {
-            vector<double> distances;
-            for (int endPos = 0; endPos < shuffledVectors.size(); endPos++) {
-                int startPos = find(shuffledVectors[endPos]);
-                // if the object is in list calculate and push back how far it moved
-                if (startPos != -1) {
-                    double distance = abs(endPos - startPos);
-                    distances.push_back(distance);
+            vector<double> relativeDistances;
+            // for each element in list, find its position in the shuffled vector
+            for (int initIndex = 0; initIndex < list.size(); ++initIndex) {
+                int finalIndex = -1;
+                // search through shuffled vector for elem
+                for (int i = 0; i < vect.size(); i++) {
+                    if (list[initIndex] == vect[i]) {
+                        finalIndex = i;
+                    }
+                }
+                // if the object was found
+                if (finalIndex != -1) {
+                    // calculate how far it moved
+                    double distance = abs(finalIndex - initIndex);
+                    // divide by size of vector to obtain a relative distance moved
+                    relativeDistances.push_back((distance / vect.size()) * 100);
+                } else { // wasn't found
+                    relativeDistances.push_back(0);
                 }
             }
-            distancesVectors.push_back(distances);
+            trialDistances.push_back(relativeDistances);
         }
-        return calculateStandardError(distancesVectors);
+        // calculate the standard error of distance moved from original list to shuffled list
+        // for each index position for all trials (SE of each column in the 2d vector)
+        // overallStandardError is the mean of the SE of all columns.
+        double overallStandardError = calculateStandardError(trialDistances);
+        return overallStandardError;
     }
 
-    /*
-     * Requires: a vector of doubles
-     * Modifies: nothing
-     * Effects: calculates the standard deviation of a vector of doubles
-     */
-    double calculateStandardError(const vector<vector<double>> &numbers) {
-        // SE = sqrt( sum((X-m)^2) / N ) / sqrt(N), where X = number in list, m = mean, N = count of numbers
-        double mean = calculateMean(numbers);
-        double sumSquaredDistances = 0;
-        for (double num : numbers) {
-            sumSquaredDistances += (pow((num - mean), 2) / numbers.size());
+    // Requires: a 2d vector of doubles
+    // Modifies: nothing
+    // Effects: calculates the average of the standard errors of each column in a 2d vector of doubles.
+    double calculateStandardError(const vector<vector<double>> &trialDistances) {
+        // the standard error of each column in the provided 2d vector
+        vector<double> colStandardErrors;
+        // for each column push the relative distances onto a new vector
+        for (int col = 0; col < trialDistances[col].size(); ++col) {
+            vector<double> colDistances;
+            for (int row = 0; row < trialDistances.size(); ++row) {
+                colDistances.push_back(trialDistances[row][col]);
+            }
+            // calculate the standard error in the relative distance for each column
+            // VAR = sqrt( sum((X-m)^2) / N ), where X = number in list, m = mean, N = count
+            // SE = sqrt(VAR) / sqrt(N), where N = count
+            double colMean = calculateMean(colDistances);
+            double sumSquaredColDistances = 0;
+            for (double num : colDistances) {
+                sumSquaredColDistances += pow(((num - colMean)), 2);
+            }
+            double colVariance = sumSquaredColDistances / colDistances.size();
+            double colStandardError = sqrt(colVariance) / sqrt(colDistances.size());
+            colStandardErrors.push_back(colStandardError);
         }
-        double variance = sumSquaredDistances / numbers.size();
-        double standardError = sqrt(variance) / sqrt(numbers.size());
-        return standardError;
+        // calculate the mean standard error
+        double meanSE = calculateMean(colStandardErrors);
+        return meanSE;
     }
 
     /*

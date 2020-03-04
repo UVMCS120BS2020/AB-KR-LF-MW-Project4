@@ -16,7 +16,7 @@ randomization algorithms.
 
 - [x] You cannot reuse code from previous projects.
 
-- [ ] All of your programming files should be in a private GitHub repository in your section’s organization.
+- [x] All of your programming files should be in a private GitHub repository in your section’s organization.
    
     - [x] Your project name must include all team member’s initials and Project 4 (e.g. AB-CD-EFProject4).
   
@@ -28,16 +28,16 @@ randomization algorithms.
 - [x] Create a class in header and .cpp files that includes at least two fields and at least one
       nontrivial method. It must also overload the << operator.
 
-- [ ] In another header file, write a template class that holds a vector of items and has methods to
+- [x] In another header file, write a template class that holds a vector of items and has methods to
       randomize, sort, and find items. It should also overload the << operator to print the vector of
       items. You can add other functionality as needed.
     
     - [ ] Each team member should write their own randomize method. They must all be included in
       the class. The method names should include the author’s initials.
    
-    - [ ] Write all of the code for this class in the header file. Do not create a corresponding .cpp file.
+    - [x] Write all of the code for this class in the header file. Do not create a corresponding .cpp file.
 
-- [ ] Your main program should have an object of the template class that holds objects of the other class.
+- [x] Your main program should have an object of the template class that holds objects of the other class.
 
 - [ ] The goal of your program is to determine which of the randomize algorithms works best. This means you 
       need to agree as a team on some quantitative metric to determine the effectiveness of a randomizing 
