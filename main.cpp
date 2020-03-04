@@ -17,7 +17,7 @@ int main() {
     time_t now = time(0);
     srand(now);
 
-    //populate randomizer
+    //populate randomizer, different lengths
     Randomizer<BankAccount> randomizer;
     vector<BankAccount> accounts1 = generateBankAccounts(10);
     vector<BankAccount> accounts2 = generateBankAccounts(25);
@@ -63,6 +63,7 @@ void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials) {
     cout << "c++-rand =\t" << cppRandomness << endl;
     cout << "LF-rand =\t" << LFRandomness << endl;
     cout << "MW-rand =\t" << MWRandomness << endl;
+    //TODO: c++ rand not randomizing correctly
 }
 
 double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
