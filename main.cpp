@@ -13,6 +13,7 @@ double testCppShuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 double testLFshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 double testMWshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 double testKRshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
+//double testABshuffle(Randomizer<BankAccount> &randomizer, int numTrials);
 
 int main() {
     time_t now = time(0);
@@ -60,13 +61,14 @@ void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials) {
     double LFRandomness = testLFshuffle(randomizer, numTrials);
     double MWRandomness = testMWshuffle(randomizer, numTrials);
     double KRRandomness = testKRshuffle(randomizer, numTrials);
+    //double ABRandomness = testABshuffle(randomizer, numTrials);
     cout << "Randomness for " << numTrials << " trials:" << endl;
     cout << "non-rand =\t" << baselineRandomness << endl;
     cout << "c++-rand =\t" << cppRandomness << endl;
     cout << "LF-rand =\t" << LFRandomness << endl;
     cout << "MW-rand =\t" << MWRandomness << endl;
     cout << "KR-rand = \t" << KRRandomness << endl;
-    //TODO: c++ rand not randomizing correctly
+    //cout << "AB-rand = \t" << ABRandomness << endl;
 }
 
 double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
@@ -117,3 +119,12 @@ double testKRshuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
     }
     return randomizer.calculateRandomness(shuffledVectors);
 }
+
+//double testABshuffle(Randomizer<BankAccount> &randomizer, int numTrials) {
+//    vector<vector<BankAccount>> shuffledVectors;
+//    for (int i = 0; i < numTrials; ++i) {
+//        vector<BankAccount> shuffled = randomizer.ABshuffle();
+//        shuffledVectors.push_back(shuffled);
+//    }
+//    return randomizer.calculateRandomness(shuffledVectors);
+//}

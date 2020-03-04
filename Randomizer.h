@@ -41,8 +41,8 @@ public:
 
     /*
      * Find
-     * Requires:
-     * Modifies:
+     * Requires: T object
+     * Modifies: Nothing
      * Effects: returns the index of the object to be located
      */
     int find(T object) {
