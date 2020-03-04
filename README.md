@@ -1,7 +1,12 @@
 # AB-KR-LF-MW-Project4
 
-For this project, the team decided to include an ID field with the bank account objects to make it easier to determine what index the object was at orignally for comparison to where the object ended up after randomizing the vector. 
+For this project, each teammate wrote their own unique algorithm for shuffling the vector of bank account objects. To determine which methods were most effective,
+the team decided to implement a metric to calculate the "randomness" of each algorithm using the object's starting index and the index that it ended up at after the shuffle.
+Calculating the distance that each object moved allows for calculations of the standard error to be computed as well. In addition to each of the teammate's methods, the
+shuffle method included with C++ is tested, as well as the "randomness" of the vector if it were reversed (which isn't random, actually) to provide more context for alorigthm
+comparison. 
 
+There were 100 trials tested for different vector lengths (10, 25, 50), and the outputs for each were printed out to the terminal.
 
 
 

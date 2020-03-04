@@ -63,7 +63,6 @@ void testShuffleMethods(Randomizer<BankAccount> &randomizer, int numTrials) {
     cout << "c++-rand =\t" << cppRandomness << endl;
     cout << "LF-rand =\t" << LFRandomness << endl;
     cout << "MW-rand =\t" << MWRandomness << endl;
-    //TODO: c++ rand not randomizing correctly
 }
 
 double testBaseline(Randomizer<BankAccount> &randomizer, int numTrials) {
