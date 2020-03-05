@@ -57,44 +57,57 @@ public:
 
     /*
      * Austin Black's Algorithm
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns a vector of template objects. It is the list field of this class with the objects
+     *          arranged randomly.
      */
     vector<T> ABshuffle() {
-        unsigned long int seed;
         vector<T> shuffled = list;
-        double result = logisticMap(100, 0.4);
-        result *= 1.0*pow(10,4);
-        seed = (int)result;
+        unsigned long int seed;
 
+        seed = chrono::duration_cast<chrono::nanoseconds>
+                (chrono::system_clock::now().time_since_epoch()).count();
+        seed /= pow(10,7);
 
-        string seedToString = to_string(seed);
-        cout << "seedToString = " << seedToString << endl;
+        for (int i = 0; i < shuffled.size(); i++) {
+            double result = logisticMap(seed, 0.663);
+            result *= 1.0 * pow(10, 5);
+            seed = (int) result;
 
-        int seedSquared = pow(seed, 2);
-        cout << "seedSquared = " << seedSquared << endl;
+            string seedToString = to_string(seed);
+            unsigned long int seedSquared = pow(seed, 2);
+            string squaredToString = to_string(seedSquared);
 
-        string squaredToString = to_string(seedSquared);
-        cout << "squaredToString = " << squaredToString << endl;
+            if (squaredToString.length() % seedToString.length() != 0) {
+                while (squaredToString.length() % seedToString.length() != 0) {
+                    squaredToString += to_string(seed % 10);
+                }
+            }
 
-        int seedLength = seedToString.length();
-        int squareLength = squaredToString.length();
+            int seedLength = seedToString.length();
+            int squareLength = squaredToString.length();
+            string middle = squaredToString.substr((squareLength / 2) - (seedLength / 2), seedLength);
+            seed = stoi(middle);
 
-        if (squareLength % 2 != 0) {
-            squaredToString += "1";
+            int j = seed % shuffled.size();
+            T temp = shuffled[i];
+            shuffled[i] = shuffled[j];
+            shuffled[j] = temp;
         }
+        return shuffled;
     }
 
     /*
      * Logistic Map Function
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: an integer and a double
+     * Modifies: nothing
+     * Effects: calculates the output of the logistic map (chaotic in this case)
+     *          for a given initial point (initial) after (iter) iterations.
      */
-    double logisticMap(int iter, double start) {
+    double logisticMap(int iter, double initial) {
         vector<double> x (iter+1);
-        x[0] = start;
+        x[0] = initial;
         for (int i = 0; i < iter; i++) {
             x[i+1] = 4*x[i]*(1-x[i]);
         }
