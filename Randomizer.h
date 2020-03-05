@@ -41,8 +41,8 @@ public:
 
     /*
      * Find
-     * Requires:
-     * Modifies:
+     * Requires: T object
+     * Modifies: Nothing
      * Effects: returns the index of the object to be located
      */
     int find(T object) {
@@ -213,33 +213,35 @@ public:
         // calculate the standard error of distance moved from original list to shuffled list
         // for each index position for all trials (SE of each column in the 2d vector)
         // overallStandardError is the mean of the SE of all columns.
-        double overallStandardError = calculateStandardError(trialDistances);
+        double overallStandardError = calculateAverageColumnStandardError(rotate2DVector(trialDistances));
         return overallStandardError;
+    }
+
+    /*
+     * Requires: 2d vector
+     * Modifies: Nothing
+     * Effects: rotates the vector so rows swap with columns
+     */
+    vector<vector<double>> rotate2DVector(const vector<vector<double>> &vect) {
+        vector<vector<double>> rotated;
+        for (int col = 0; col < vect[col].size(); ++col) {
+            vector<double> rows;
+            for (const auto & row : vect) {
+                rows.push_back(row[col]);
+            }
+            rotated.push_back(rows);
+        }
+        return rotated;
     }
 
     // Requires: a 2d vector of doubles
     // Modifies: nothing
     // Effects: calculates the average of the standard errors of each column in a 2d vector of doubles.
-    double calculateStandardError(const vector<vector<double>> &trialDistances) {
+    double calculateAverageColumnStandardError(const vector<vector<double>> &vect) {
         // the standard error of each column in the provided 2d vector
         vector<double> colStandardErrors;
-        // for each column push the relative distances onto a new vector
-        for (int col = 0; col < trialDistances[col].size(); ++col) {
-            vector<double> colDistances;
-            for (int row = 0; row < trialDistances.size(); ++row) {
-                colDistances.push_back(trialDistances[row][col]);
-            }
-            // calculate the standard error in the relative distance for each column
-            // VAR = sqrt( sum((X-m)^2) / N ), where X = number in list, m = mean, N = count
-            // SE = sqrt(VAR) / sqrt(N), where N = count
-            double colMean = calculateMean(colDistances);
-            double sumSquaredColDistances = 0;
-            for (double num : colDistances) {
-                sumSquaredColDistances += pow(((num - colMean)), 2);
-            }
-            double colVariance = sumSquaredColDistances / colDistances.size();
-            double colStandardError = sqrt(colVariance) / sqrt(colDistances.size());
-            colStandardErrors.push_back(colStandardError);
+        for(const vector<double> &column : vect) {
+            colStandardErrors.push_back(calculateStandardError(column));
         }
         // calculate the mean standard error
         double meanSE = calculateMean(colStandardErrors);
@@ -249,11 +251,30 @@ public:
     /*
      * Requires: a vector of doubles
      * Modifies: nothing
+     * Effects: calculates the standard error of a vector of doubles
+     */
+    double calculateStandardError(const vector<double> vect) {
+        // calculate the standard error in the relative distance for each column
+        // VAR = sqrt( sum((X-m)^2) / N ), where X = number in list, m = mean, N = count
+        // SE = sqrt(VAR) / sqrt(N), where N = count
+        double colMean = calculateMean(vect);
+        double sumSquaredColDistances = 0;
+        for (const double &num : vect) {
+            sumSquaredColDistances += pow(((num - colMean)), 2);
+        }
+        double colVariance = sumSquaredColDistances / vect.size();
+        double colStandardError = sqrt(colVariance) / sqrt(vect.size());
+        return colStandardError;
+    }
+
+    /*
+     * Requires: a vector of doubles
+     * Modifies: nothing
      * Effects: calculates the mean value of a vector of doubles
      */
     double calculateMean(const vector<double> &numbers) {
         double mean = 0;
-        for (double num : numbers) {
+        for (const double &num : numbers) {
             mean += num;
         }
         return mean /= numbers.size();
