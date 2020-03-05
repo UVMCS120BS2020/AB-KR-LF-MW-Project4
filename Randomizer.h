@@ -20,6 +20,10 @@ private:
     unsigned long int KRshuffleSeed;
 
 public:
+
+    /*
+     * Default Constructor
+     */
     Randomizer() {
         LFshuffleSeed = chrono::duration_cast<chrono::milliseconds>
                 (chrono::system_clock::now().time_since_epoch()).count();
@@ -29,9 +33,9 @@ public:
 
     /*
      * Sort
-     * Requires:
-     * Modifies:
-     * Effects: returns the index of the object to be located
+     * Requires: A vector of template objects
+     * Modifies: Nothing
+     * Effects: returns the index of the object to be located.
      */
     vector<T> sort(const vector<T> &unsortedList) {
         vector<T> sortedList = unsortedList;
@@ -41,9 +45,9 @@ public:
 
     /*
      * Find
-     * Requires: T object
+     * Requires: A template object
      * Modifies: Nothing
-     * Effects: returns the index of the object to be located
+     * Effects: returns the index of the object to be located.
      */
     int find(T object) {
         for (int i = 0; i < list.size(); i++) {
@@ -59,8 +63,8 @@ public:
      * Austin Black's Algorithm
      * Requires: Nothing
      * Modifies: Nothing
-     * Effects: Returns a vector of template objects. It is the list field of this class with the objects
-     *          arranged randomly.
+     * Effects: Returns a vector of template objects. It contains all of objects in
+     *          in the list field of this class, but arranged randomly.
      */
     vector<T> ABshuffle() {
         vector<T> shuffled = list;
@@ -99,26 +103,28 @@ public:
     }
 
     /*
-     * Logistic Map Function
-     * Requires: an integer and a double
-     * Modifies: nothing
-     * Effects: calculates the output of the logistic map (chaotic in this case)
-     *          for a given initial point (initial) after (iter) iterations.
+     * Logistic Map
+     * Requires: An integer and a double.
+     * Modifies: Nothing
+     * Effects: Calculates the output of the logistic map Xn+1 = r(Xn)(1-Xn)
+     *          after (iter) iterations, for a given initial point (initial).
+     *          (chaotic for ~3.57 < r <= 4)
      */
     double logisticMap(int iter, double initial) {
         vector<double> x (iter+1);
+        double r = 4.0;
         x[0] = initial;
         for (int i = 0; i < iter; i++) {
-            x[i+1] = 4*x[i]*(1-x[i]);
+            x[i+1] = r*x[i]*(1-x[i]);
         }
         return x[iter];
     }
 
     /*
      * Kai Morrissey's Algorithm
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns a vector of template objects (from the list field) arranged randomly.
      */
     vector<T> KRshuffle() {
         vector<T> out;
@@ -132,9 +138,9 @@ public:
 
     /*
      * Luke Fredrickson's Algorithm
-     * Requires:
-     * Modifies:
-     * Effects:
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns a vector of template objects (from the list field) in a random arrangement.
      */
     vector<T> LFshuffle() {
         vector<T> scrambled = list;
@@ -160,12 +166,12 @@ public:
      * Megan Work's Algorithm
      * Requires: Nothing
      * Modifies: Nothing
-     * Effects: Returns vector with indices randomly shuffled
+     * Effects: Returns vector with indices randomly shuffled.
      */
     vector<T> MWshuffle() {
         vector<T> shuffled = list;
         int size = shuffled.size();
-        //for every element, swap with random element in remaining elements
+        // For every element, swap with random element in remaining elements.
         for(int i = 0; i < size - 1; ++i) {
             int j = i + rand() % (size - i);
             swap(shuffled[i], shuffled[j]);
@@ -175,13 +181,13 @@ public:
 
 
     /*
-     * Requires: a vector of scrambled versions of the original list vector (unique objects with equality operators)
-     * Modifies: nothing
-     * Effects: calculates a randomness score using the average of the standard error of relative distance traveled
-     * by each element in the list from its unshuffled position to its shuffled position across n trials.
-     * This score will change with different list sizes, as the standard error of sample means goes up as the number
-     * of trials goes down. But using the same initial vector and the same sample size, this score can be used as a metric
-     * for calculating relative randomness compared to other functions.
+     * Requires: A vector of scrambled versions of the original list vector (unique objects with equality operators)
+     * Modifies: Nothing
+     * Effects: Calculates a randomness score using the average of the standard error of relative distance traveled
+     *          by each element in the list from its unshuffled position to its shuffled position across n trials.
+     *          This score will change with different list sizes, as the standard error of sample means goes up as the number
+     *          of trials goes down. But using the same initial vector and the same sample size, this score can be used as a metric
+     *          for calculating relative randomness compared to other functions.
      */
     double calculateRandomness(const vector<vector<T>> &shuffledVectors) {
         // vector of all relative distances moved for each element in every trial
@@ -218,9 +224,10 @@ public:
     }
 
     /*
-     * Requires: 2d vector
+     * Rotate 2D Vector
+     * Requires: 2D vector
      * Modifies: Nothing
-     * Effects: rotates the vector so rows swap with columns
+     * Effects: Transposes the vector so rows swap with columns.
      */
     vector<vector<double>> rotate2DVector(const vector<vector<double>> &vect) {
         vector<vector<double>> rotated;
@@ -234,9 +241,12 @@ public:
         return rotated;
     }
 
-    // Requires: a 2d vector of doubles
-    // Modifies: nothing
-    // Effects: calculates the average of the standard errors of each column in a 2d vector of doubles.
+    /*
+     * Calculate Average Column Standard Error
+     * Requires: A 2D vector of doubles
+     * Modifies: Nothing
+     * Effects: Calculates the average of the standard errors of each column in a 2d vector of doubles.
+     */
     double calculateAverageColumnStandardError(const vector<vector<double>> &vect) {
         // the standard error of each column in the provided 2d vector
         vector<double> colStandardErrors;
@@ -249,11 +259,12 @@ public:
     }
 
     /*
-     * Requires: a vector of doubles
-     * Modifies: nothing
-     * Effects: calculates the standard error of a vector of doubles
+     * Calculate Standard Error
+     * Requires: A vector of doubles
+     * Modifies: Nothing
+     * Effects: Calculates the standard error of a vector of doubles.
      */
-    double calculateStandardError(const vector<double> vect) {
+    double calculateStandardError(const vector<double> &vect) {
         // calculate the standard error in the relative distance for each column
         // VAR = sqrt( sum((X-m)^2) / N ), where X = number in list, m = mean, N = count
         // SE = sqrt(VAR) / sqrt(N), where N = count
@@ -268,9 +279,10 @@ public:
     }
 
     /*
-     * Requires: a vector of doubles
-     * Modifies: nothing
-     * Effects: calculates the mean value of a vector of doubles
+     * Calculate Mean
+     * Requires: A vector of doubles
+     * Modifies: Nothing
+     * Effects: Calculates the mean value of a vector of doubles.
      */
     double calculateMean(const vector<double> &numbers) {
         double mean = 0;
@@ -281,33 +293,48 @@ public:
     }
 
     /*
-     * GETTER(S)
-     * Requires: a vector of doubles
-     * Modifies: nothing
-     * Effects: calculates the mean value of a vector of doubles
+     * Getter(s)
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns value(s) of the class field(s).
      */
     const vector<T> &getList() const {
         return list;
     }
 
     /*
-     * SETTER(S)
-     * Requires: a vector of doubles
-     * Modifies: nothing
-     * Effects: calculates the mean value of a vector of doubles
+     * Setter(s)
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Sets value(s) of the class field(s) to the input value(s).
      */
     void setList(const vector<T> &list_) {
         list = list_;
     }
 
+    /*
+     * Add
+     * Requires: Template object
+     * Modifies: Nothing
+     * Effects: Pushes input object into field vector.
+     */
     void add(T push) {
         list.push_back(push);
     }
 
+    /*
+     * Get
+     * Requires: An integer
+     * Modifies: Nothing
+     * Effects: Returns template object contained at a given index within field vector.
+     */
     T get(int index) {
         return list[index];
     }
 
+    /*
+     * Overloaded Operator(s)
+     */
     friend std::ostream &operator<<(std::ostream &os, const Randomizer<T> &randomizer) {
         for(T obj : randomizer.list) {
             os << obj << endl;

@@ -11,7 +11,7 @@ BankAccount::BankAccount() : id(0), balance(0.0), interestRate(0.01) {}
 BankAccount::BankAccount(int id) : id(id), balance(0.0), interestRate(0.01) {}
 
 BankAccount::BankAccount(double balance, double interestRate) : id(0),
-balance(balance), interestRate(interestRate) {}
+                        balance(balance), interestRate(interestRate) {}
 
 int BankAccount::getID() const {
     return id;
@@ -22,7 +22,7 @@ void BankAccount::setID(int id_) {
 }
 
 BankAccount::BankAccount(int id, double balance, double interestRate) :
-    id(id), balance(balance), interestRate(interestRate) {}
+                        id(id), balance(balance), interestRate(interestRate) {}
 
 double BankAccount::getBalance() const {
     return balance;
@@ -51,27 +51,22 @@ ostream &operator<<(ostream &os, const BankAccount &account) {
     << "\tAccount Interest Rate: " << setprecision(2) << fixed << account.interestRate;
     return os;
 }
-
-bool BankAccount::operator<(const BankAccount &rhs) const {
+bool BankAccount::operator ==(const BankAccount &rhs) const {
+    return id == rhs.id;
+}
+bool BankAccount::operator !=(const BankAccount &rhs) const {
+    return !(rhs == *this);
+}
+bool BankAccount::operator <(const BankAccount &rhs) const {
     return id < rhs.id;
 }
-
-bool BankAccount::operator>(const BankAccount &rhs) const {
+bool BankAccount::operator >(const BankAccount &rhs) const {
     return id > rhs.id;
 }
-
-bool BankAccount::operator<=(const BankAccount &rhs) const {
+bool BankAccount::operator <=(const BankAccount &rhs) const {
     return id <= rhs.id;
 }
-
-bool BankAccount::operator>=(const BankAccount &rhs) const {
+bool BankAccount::operator >=(const BankAccount &rhs) const {
     return id >= rhs.id;
 }
 
-bool BankAccount::operator==(const BankAccount &rhs) const {
-    return id == rhs.id;
-}
-
-bool BankAccount::operator!=(const BankAccount &rhs) const {
-    return !(rhs == *this);
-}

@@ -1,8 +1,8 @@
 #include "bankAccount.h"
+#include "Randomizer.h"
 #include <iostream>
 #include <ctime>
 #include <random>
-#include "Randomizer.h"
 #include <vector>
 using namespace std;
 

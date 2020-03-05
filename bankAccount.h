@@ -7,12 +7,13 @@
 
 #include <cmath>
 #include <iostream>
-
 using namespace std;
 
 class BankAccount {
 private:
-    // Fields
+    /*
+     * Fields
+     */
     // the index of the bank account in a vector.
     // (useful for measuring randomness.)
     unsigned int id;
@@ -21,61 +22,68 @@ private:
     // the interest rate of the account
     double interestRate;
 public:
-    // Constructors
+    /*
+     * Constructors
+     */
     BankAccount();
-
+    /*
+     * Requires: An integer
+     * Modifies: id field
+     * Effects: Creates a bankAccount object with a given id.
+     */
     explicit BankAccount(int id);
 
-    bool operator==(const BankAccount &rhs) const;
-
-    bool operator!=(const BankAccount &rhs) const;
-
-    // Requires: non-negative doubles
-    // Modifies: fields
-    // Effects: creates a bankAccount object
+    /*
+     * Requires: Non-negative doubles
+     * Modifies: balance and interestRate fields
+     * Effects: Creates a bankAccount object with given balance and interestRate fields.
+     */
     BankAccount(double balance_, double interestRate_);
 
+    /*
+     * Requires: An integer and non-negative doubles
+     * Modifies: id, balance, and interestRate fields
+     * Effects: Creates a bankAccount object with given id, balance, and interestRate fields.
+     */
     BankAccount(int id, double balance, double interestRate);
 
-    // getters
-    // Requires: nothing
-    // Modifies: nothing
-    // Effects: returns field
+    /*
+     * Getters
+     * Requires: Nothing
+     * Modifies: Nothing
+     * Effects: Returns respective field.
+     */
     double getBalance() const;
     double getInterestRate() const;
     int getID() const;
 
-    // setters
-    // Requires: non-negative double or int
-    // Modifies: fields
-    // Effects: sets fields
+    /*
+     * Setters
+     * Requires: Non-negative double, integer
+     * Modifies: Fields
+     * Effects: Sets fields to respective values.
+     */
     void setInterestRate(double interestRate_);
     void setBalance(double balance_);
     void setID(int id);
 
-
-    // Requires: non-negative number
-    // Modifies: balance
-    // Effects: increments balance by continuously compounding for n years, returns interest gained.
+    /*
+     * Requires: Non-negative double
+     * Modifies: balance
+     * Effects: increments balance by continuously compounding for n years, returns interest gained.
+     */
     double compoundInterest(double numYears);
 
-    //Requires: BankAccount object (account)
-    //Modifies: Nothing
-    //Effects: Overloads output operator to print account
-    friend ostream &operator<<(ostream &os, const BankAccount &account);
-
-    bool operator<(const BankAccount &rhs) const;
-
-    bool operator>(const BankAccount &rhs) const;
-
-    bool operator<=(const BankAccount &rhs) const;
-
-    bool operator>=(const BankAccount &rhs) const;
-
-//    bool operator==(const BankAccount &rhs) const;
-
-  //  bool operator!=(const BankAccount &rhs) const;
-
+    /*
+     * Overloaded Operators
+     */
+    friend ostream &operator <<(ostream &os, const BankAccount &account);
+    bool operator ==(const BankAccount &rhs) const;
+    bool operator !=(const BankAccount &rhs) const;
+    bool operator <(const BankAccount &rhs) const;
+    bool operator >(const BankAccount &rhs) const;
+    bool operator <=(const BankAccount &rhs) const;
+    bool operator >=(const BankAccount &rhs) const;
 };
 
 
