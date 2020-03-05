@@ -58,7 +58,6 @@ public:
         return -1;
     }
 
-
     /*
      * Austin Black's Algorithm
      * Requires: Nothing
